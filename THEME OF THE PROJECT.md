@@ -11,7 +11,9 @@ TASNova is a modular, synthesizable 40-bit custom processor architecture impleme
 - Supports multiple operand modes (Reg–Reg, Reg–Imm, Imm–Reg, Imm–Imm)  
 - Includes instruction decoder, ALU, and register file modules  
 - Processor simulator runs instructions step-by-step with detailed logging  
-- Designed for education, debugging, and practical RTL design practice  
+- Designed for education, debugging, and practical RTL design practice
+- The assembler is customizable to your specific processor design. Currently, the assembler supports 64 unique instructions, with several opcodes reserved for future expansion.
+- We can use our own instruction set over their
 
 ---
 
