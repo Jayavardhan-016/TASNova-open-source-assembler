@@ -86,10 +86,10 @@ The following modules form a minimal but complete processor environment to test 
 
 ## Sample Log Output  
 
-Final Register Values:
-R1 = 25
-R2 = 10
-Instruction 0: MOV R1 #25
-MOV: R1 <- 25
-Instruction 1: ADD R1 R2
-ADD: R1 <- 25 + 10 = 35
+-Final Register Values:
+- R1 = 25
+- R2 = 10
+- Instruction 0: MOV R1 #25
+- MOV: R1 <- 25
+- Instruction 1: ADD R1 R2
+- ADD: R1 <- 25 + 10 = 35
