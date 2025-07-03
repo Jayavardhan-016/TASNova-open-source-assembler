@@ -1,109 +1,93 @@
-# TASNova-open-source-assembler
+# TASNova Open-Source Assembler and Processor Simulator
 
-This project implements a **modular 40-bit custom processor architecture** in SystemVerilog as part of the **TASNova Architecture**. The system includes an assembler, instruction decoder, ALU, register file, and a processor simulator. It is designed to demonstrate real-world processor pipeline behavior, execute custom instructions, and trace register-level operations.
+TASNova is a modular, synthesizable 40-bit custom processor architecture implemented in SystemVerilog. This project includes a full assembler, instruction decoder, ALU, register file, and processor simulator to demonstrate instruction execution and register tracing in a real-world pipeline environment.
 
 ---
 
-## 📌 Project Phases and Structure
+## TL;DR
 
-### ✅ Phase 1: Assembler Design (Core Project)
-**Module**: `assembler.sv`  
-The assembler is the central component of this project. It converts human-readable assembly instructions (e.g., `ADD R1, R2`, `MOV R3, #25`) into 40-bit machine instructions.  
+- Modular 40-bit processor with 30+ ALU instructions  
+- Assembler converts human-readable assembly into machine instructions  
+- Supports multiple operand modes (Reg–Reg, Reg–Imm, Imm–Reg, Imm–Imm)  
+- Includes instruction decoder, ALU, and register file modules  
+- Processor simulator runs instructions step-by-step with detailed logging  
+- Designed for education, debugging, and practical RTL design practice  
+
+---
+
+## Project Phases and Structure
+
+### Phase 1: Assembler Design (Core Project)  
+**Module:** `assembler.sv`  
+
+The assembler is the core of this project. It converts human-readable assembly instructions (e.g., `ADD R1, R2`, `MOV R3, #25`) into 40-bit machine instructions.
 
 - **Instruction Format**:
-  - `6 bits` – Opcode
-  - `2 bits` – Operand mode
-  - `32 bits` – Operands (split into 2 fields)
-- **Modes**:
-  - `00`: Reg–Reg
-  - `01`: Reg–Imm
-  - `10`: Imm–Reg
-  - `11`: Imm–Imm
-- **Output**: `output.txt` containing hex-encoded 40-bit instructions.
+  - 6 bits — Opcode  
+  - 2 bits — Operand mode  
+  - 32 bits — Operands (split into two 16-bit fields)  
+- **Operand Modes**:
+  - `00`: Register to Register (Reg–Reg)  
+  - `01`: Register to Immediate (Reg–Imm)  
+  - `10`: Immediate to Register (Imm–Reg)  
+  - `11`: Immediate to Immediate (Imm–Imm)  
+- **Output**: `output.txt` containing hex-encoded 40-bit instructions  
 
-> 🔹 This is the **main IP module** — all other modules are built to validate and simulate this assembler's output.
-
----
-
-### ✅ Phase 2: Module Integration for Testing the Assembler
-
-To test the assembler, the following modules are integrated to form a minimal but complete processor environment.
-
-#### 📦 `instruction_decoder.sv`
-- Reads 40-bit instructions from `output.txt`
-- Extracts opcode, mode, and two 16-bit operands
-- Supports all 4 operand modes and zero-extends where needed
-
-#### ⚙️ `alu_top.sv`
-- Performs all execution based on opcode and operands
-- **Supports 30+ ALU operations**, including:
-  - Arithmetic: `ADD`, `SUB`, `MUL`, `DIV`, `MOD`, `INC`, `DEC`
-  - Logic: `AND`, `OR`, `XOR`, `NOT`, `NAND`, `NOR`, `XNOR`
-  - Shifting/Rotating: `SHL`, `SHR`, `SAR`, `ROL`, `ROR`
-  - Comparison: `EQ`, `NE`, `GT`, `LT`, `GE`, `LE`
-  - Special: `MOV`, `NEG`, `ZERO`, `MAX`, `MIN`, `SWAP`, `REV`
-
-#### 🧮 `register_file.sv`
-- Implements 256 general-purpose registers (`32-bit` each)
-- Dual write support per clock
-- All values are fully accessible for output logging
+> This is the **main IP module** — all other modules are built to validate and simulate the assembler's output.
 
 ---
 
-### ✅ Phase 3: Processor Simulation and Execution
+### Phase 2: Module Integration for Assembler Testing  
 
-#### 🧪 `processor_simulator.sv`
-This module acts as the **top-level simulator** and drives the processor for instruction-by-instruction execution.
+The following modules form a minimal but complete processor environment to test the assembler output.
 
-- Loads instructions from `output.txt`
-- Decodes each instruction and triggers execution
-- Updates the register file using ALU results
-- Detects errors such as uninitialized register usage
-- **Logs** every instruction and final result in human-readable format
+#### Instruction Decoder (`instruction_decoder.sv`)  
+- Reads 40-bit instructions from `output.txt`  
+- Extracts opcode, mode, and two 16-bit operands  
+- Supports all operand modes with proper zero/sign extension  
 
-> 🔹 Executes in **single-step mode** — ideal for debugging and understanding execution flow
+#### ALU (`alu_top.sv`)  
+- Executes instructions based on opcode and operands  
+- Supports 30+ ALU operations, including:  
+  - Arithmetic: ADD, SUB, MUL, DIV, MOD, INC, DEC  
+  - Logic: AND, OR, XOR, NOT, NAND, NOR, XNOR  
+  - Shifting/Rotating: SHL, SHR, SAR, ROL, ROR  
+  - Comparison: EQ, NE, GT, LT, GE, LE  
+  - Special: MOV, NEG, ZERO, MAX, MIN, SWAP, REV  
+
+#### Register File (`register_file.sv`)  
+- Contains 256 general-purpose 32-bit registers  
+- Supports dual write operations per clock cycle  
+- All register values are accessible for logging and debugging  
 
 ---
 
-## 📂 Output Files
+### Phase 3: Processor Simulation and Execution  
 
-- `output.txt`: Machine code generated by the assembler
-- `execution_log.txt`: Final decoded instructions and register output
+#### Processor Simulator (`processor_simulator.sv`)  
+- Loads instructions from `output.txt`  
+- Decodes and executes instructions step-by-step  
+- Updates registers with ALU results  
+- Includes basic error detection (e.g., uninitialized register usage)  
+- Logs every instruction and final register states in a human-readable format  
+
+> The simulator runs in single-step mode — ideal for debugging and understanding execution flow.
 
 ---
 
-## 📘 Sample Log Output
+## Output Files  
 
-```
+- `output.txt`: Machine code generated by the assembler  
+- `execution_log.txt`: Detailed instruction decoding and register output logs  
+
+---
+
+## Sample Log Output  
+
 Final Register Values:
 R1 = 25
 R2 = 10
-----------------------------------------
 Instruction 0: MOV R1 #25
 MOV: R1 <- 25
 Instruction 1: ADD R1 R2
 ADD: R1 <- 25 + 10 = 35
-```
-
----
-
-## 🧠 Learning Outcome
-
-- Understand how custom processors interpret instructions.
-- Build and test a real instruction set with proper operand modes.
-- Practice modular SystemVerilog design and simulation.
-- Trace logic flow, debug and validate each instruction.
----
-
-## 🔍 Why This Project Stands Out
-
-- ✔️ Modular, scalable architecture
-- ✔️ 30+ ALU instructions with full mode support
-- ✔️ Clear instruction log with decoding and result tracking
-- ✔️ Professional structure — clean, synthesizable RTL
-- ✔️ File-driven test environment (simulates real-world use cases)
-
-## ✅ Summary
-
-This project presents a **realistic, modular microprocessor implementation in SystemVerilog**, with full assembler and simulation support. Designed with industry practices and education in mind, it serves as an excellent showcase for:
-
