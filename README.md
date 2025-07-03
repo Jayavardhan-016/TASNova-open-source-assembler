@@ -4,7 +4,7 @@ TASNova is a modular, synthesizable 40-bit custom processor architecture impleme
 
 ---
 
-## TL;DR
+## DESCRIPTION
 
 - Modular 40-bit processor with 30+ ALU instructions  
 - Assembler converts human-readable assembly into machine instructions  
