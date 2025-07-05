@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-
+ 
 module processor_simulator;
 
   // Clock and reset
