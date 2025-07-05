@@ -1,7 +1,7 @@
 🧩 Assembler Module – SystemVerilog-Based Instruction Encoder
 The Assembler Module is the first stage in our custom processor design pipeline. 
 It is responsible for translating human-readable assembly instructions into machine-readable 40-bit binary opcodes, based on a predefined custom instruction set architecture (ISA).
-
+ 
 ✅ Features:-
 Supports 32 custom instructions (arithmetic, logical, shift, compare, data transfer, and control operations).
 Handles all four operand modes:
