@@ -94,7 +94,7 @@ The following modules form a minimal but complete processor environment to test 
 - Instruction 1: ADD R1 R2
 - ADD: R1 <- 25 + 10 = 35
 
-  ---
+---
 
   ## 👤 Author
 
